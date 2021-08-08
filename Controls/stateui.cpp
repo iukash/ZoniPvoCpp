@@ -12,8 +12,14 @@ StateUi::StateUi(QWidget *parent) :
 void StateUi::paintEvent(QPaintEvent *event)
  {
     QPainter painter(this);
-    painter.setPen(QPen(Qt::black, 12, Qt::DashDotLine, Qt::RoundCap));
+    painter.setPen(QPen(Qt::black, 2, Qt::SolidLine));
     painter.drawLine(0, 0, 50, 50);
+    painter.drawLine(0, 50, 50, 0);
+    painter.drawLine(0, 0, 50, 0);
+    painter.drawLine(0, 0, 0, 50);
+    painter.drawLine(50, 50, 50, 0);
+    painter.drawLine(50, 50, 0, 50);
+    painter.drawEllipse(23,23,4,4);
  }
 StateUi::~StateUi()
 {

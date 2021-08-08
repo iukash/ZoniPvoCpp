@@ -9,17 +9,19 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Controls/stateui.cpp \
+    Objects/state.cpp \
     main.cpp \
-    mainwindow.cpp \
-    stateui.cpp
+    mainwindow.cpp
 
 HEADERS += \
-    mainwindow.h \
-    stateui.h
+    Controls/stateui.h \
+    Objects/state.h \
+    mainwindow.h
 
 FORMS += \
-    mainwindow.ui \
-    stateui.ui
+    Controls/stateui.ui \
+    mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "Objects/state.h"
+#include <vector>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,5 +19,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    std::vector <State*> states;
+    int sizeX;
+    int sizeY;
 };
 #endif // MAINWINDOW_H
