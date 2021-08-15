@@ -10,12 +10,16 @@ CONFIG += c++11
 
 SOURCES += \
     Controls/stateui.cpp \
+    Objects/point.cpp \
+    Objects/pvo.cpp \
     Objects/state.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     Controls/stateui.h \
+    Objects/point.h \
+    Objects/pvo.h \
     Objects/state.h \
     mainwindow.h
 
@@ -27,3 +31,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    resource.qrc

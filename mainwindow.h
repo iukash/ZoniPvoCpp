@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "Objects/state.h"
+#include "Objects/pvo.h"
 #include <vector>
 
 QT_BEGIN_NAMESPACE
@@ -17,10 +18,16 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+protected:
+    void paintEvent(QPaintEvent *event);
+
 private:
     Ui::MainWindow *ui;
-    std::vector <State*> states;
+    std::vector <State> states;
+    std::vector <Pvo> pvoes;
     int sizeX;
     int sizeY;
+    int xGrid;
+    int yGrid;
 };
 #endif // MAINWINDOW_H
