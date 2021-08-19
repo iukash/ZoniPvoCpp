@@ -26,8 +26,10 @@ MainWindow::MainWindow(QWidget *parent)
    bGr->addButton(ui->radioButtonTD);
    ui->groupBoxMC->setEnabled(false);
 
+
+
    pvoes.push_back(Pvo(0,0,0));
-   pvoes.push_back(Pvo(2,2,0));
+   pvoes.push_back(Pvo(2,2,0, 100, 300));
 }
 
 MainWindow::~MainWindow()
@@ -37,8 +39,21 @@ MainWindow::~MainWindow()
 
 void MainWindow::paintEvent(QPaintEvent *)
 {
+    QPixmap pixPvo(":/resource/PVO.jpg");
     auto geomGrid = ui->gridLayout->geometry();
     QPainter painter(this);
     for (Pvo pvoItem: pvoes)
-      painter.drawPixmap(geomGrid.x()+xGrid*pvoItem.X,geomGrid.y()+yGrid*pvoItem.Y,xGrid,yGrid,pvoItem.GetPixmap());
+    {
+      painter.setBrush(QBrush(Qt::blue, Qt::SolidPattern));
+      painter.drawEllipse(pvoItem.GetDistatncePaint(geomGrid.x(),xGrid, false),pvoItem.GetDistatncePaint(geomGrid.y(),yGrid, false), pvoItem.R2, pvoItem.R2);
+    }
+    for (Pvo pvoItem: pvoes)
+    {
+      painter.setBrush(QBrush(Qt::red, Qt::SolidPattern));
+      painter.drawEllipse(pvoItem.GetDistatncePaint(geomGrid.x(),xGrid, true),pvoItem.GetDistatncePaint(geomGrid.y(),yGrid, true), pvoItem.R1, pvoItem.R1);
+    }
+    for (Pvo pvoItem: pvoes)
+    {
+      painter.drawPixmap(geomGrid.x()+xGrid*pvoItem.X,geomGrid.y()+yGrid*pvoItem.Y,xGrid,yGrid,pixPvo);
+    }
 }
