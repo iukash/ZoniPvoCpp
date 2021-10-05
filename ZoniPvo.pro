@@ -10,17 +10,23 @@ CONFIG += c++11
 
 SOURCES += \
     Controls/stateui.cpp \
+    Objects/agent.cpp \
     Objects/point.cpp \
     Objects/pvo.cpp \
     Objects/state.cpp \
+    enviropment.cpp \
+    logicwork.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     Controls/stateui.h \
+    Objects/agent.h \
     Objects/point.h \
     Objects/pvo.h \
     Objects/state.h \
+    enviropment.h \
+    logicwork.h \
     mainwindow.h
 
 FORMS += \

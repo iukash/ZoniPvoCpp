@@ -1,7 +1,10 @@
 #include "state.h"
 
-State::State(StateUi* stateUi)
+State::State(Point pnt, StateUi* stateUi) : Point()
 {
+    X = pnt.X;
+    Y = pnt.Y;
+    Z = pnt.Z;
     stUi = stateUi;
 }
 
@@ -10,7 +13,7 @@ StateUi* State::GetStateUi()
     return stUi;
 }
 
-int State::GetNumber(int x, int y, int sizeY)
+State::~State()
 {
-    return sizeY*y + x;
+    //delete stUi;
 }

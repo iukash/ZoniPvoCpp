@@ -2,13 +2,15 @@
 #define STATE_H
 
 #include "Controls/stateui.h"
+#include "point.h"
 
-class State
+class State : public Point
 {
 public:
-    State(StateUi*);
+    State(Point pnt, StateUi*);
+    ~State();
     StateUi* GetStateUi();
-    static int GetNumber(int x, int y, int sizeY);
+    double VpOpt, Reward;
 private:
     StateUi* stUi;
 };

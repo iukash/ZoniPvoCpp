@@ -1,11 +1,11 @@
 #include <QPainter>
 #include "pvo.h"
 
-Pvo::Pvo(int x, int y, int z, int r1, int r2) : Point(x,y,z)
+Pvo::Pvo(Point pnt, int r1, int r2) : Point()
 {
-    _x = x;
-    _y = y;
-    _z = z;
+    X = pnt.X;
+    Y = pnt.Y;
+    Z = pnt.Z;
     R1 = r1;
     R2 = r2;
 }
@@ -14,16 +14,22 @@ Pvo::~Pvo()
 {
 }
 
-int Pvo::GetDistatncePaint(int geomGridKoord, int sizeGrid, bool flagR1)
+int Pvo::GetPaintR1X(int geomGridKoord)
 {
-    int rezult = 0;
-    if(flagR1)
-        rezult = geomGridKoord+sizeGrid*_x - R1/2 + sizeGrid/2;
-    else
-        rezult = geomGridKoord+sizeGrid*_x - R2/2 + sizeGrid/2;
-    return rezult;
+    return geomGridKoord+Enviropment::XYst*X - R1/2 + Enviropment::XYst/2;
 }
-
+int Pvo::GetPaintR2X(int geomGridKoord)
+{
+    return geomGridKoord+Enviropment::XYst*X - R2/2 + Enviropment::XYst/2;
+}
+int Pvo::GetPaintR1Y(int geomGridKoord)
+{
+    return geomGridKoord+Enviropment::XYst*Y - R1/2 + Enviropment::XYst/2;
+}
+int Pvo::GetPaintR2Y(int geomGridKoord)
+{
+    return geomGridKoord+Enviropment::XYst*Y - R2/2 + Enviropment::XYst/2;
+}
 //void Pvo::paintEvent(QPaintEvent *)
 //{
 //    QPainter painter;

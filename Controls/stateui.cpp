@@ -3,23 +3,25 @@
 #include <QPainter>
 
 StateUi::StateUi(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::StateUi)
+    QWidget(parent), ui(new Ui::StateUi)
 {
     ui->setupUi(this);
+    XYst = Enviropment::XYst;
+    this->setMinimumSize(XYst,XYst);
 }
 
-void StateUi::paintEvent(QPaintEvent *event)
+void StateUi::paintEvent(QPaintEvent *)
  {
     QPainter painter(this);
     painter.setPen(QPen(Qt::black, 2, Qt::SolidLine));
-    painter.drawLine(0, 0, 50, 50);
-    painter.drawLine(0, 50, 50, 0);
-    painter.drawLine(0, 0, 50, 0);
-    painter.drawLine(0, 0, 0, 50);
-    painter.drawLine(50, 50, 50, 0);
-    painter.drawLine(50, 50, 0, 50);
-    painter.drawEllipse(23,23,4,4);
+    painter.drawLine(0, 0, XYst, XYst);
+    painter.drawLine(0, XYst, XYst, 0);
+    painter.drawLine(0, 0, XYst, 0);
+    painter.drawLine(0, 0, 0, XYst);
+    painter.drawLine(XYst, XYst, XYst, 0);
+    painter.drawLine(XYst, XYst, 0, XYst);
+    double centerEl = XYst/10;
+    painter.drawEllipse(XYst/2-centerEl/2,XYst/2-centerEl/2,centerEl,centerEl);
  }
 StateUi::~StateUi()
 {

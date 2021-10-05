@@ -2,9 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "Objects/state.h"
-#include "Objects/pvo.h"
-#include <vector>
+#include "logicwork.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -23,11 +21,6 @@ protected:
 
 private:
     Ui::MainWindow *ui;
-    std::vector <State> states;
-    std::vector <Pvo> pvoes;
-    int sizeX;
-    int sizeY;
-    int xGrid;
-    int yGrid;
+    LogicWork logicWork;
 };
 #endif // MAINWINDOW_H

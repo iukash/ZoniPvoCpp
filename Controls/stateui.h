@@ -2,6 +2,7 @@
 #define STATEUI_H
 
 #include <QWidget>
+#include "enviropment.h"
 
 namespace Ui {
 class StateUi;
@@ -18,6 +19,7 @@ protected:
     void paintEvent(QPaintEvent *event);
 private:
     Ui::StateUi *ui;
+    int XYst;
 };
 
 #endif // STATEUI_H

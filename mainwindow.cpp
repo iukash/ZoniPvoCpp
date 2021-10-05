@@ -8,17 +8,6 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
    ui->setupUi(this);
-   sizeX = 19;
-   sizeY = 19;
-   xGrid = 50;
-   yGrid = 50;
-
-   for (int i = 0; i < sizeY; i++) {
-       for (int j = 0; j < sizeX; j++) {
-           states.push_back(State(new StateUi()));
-           ui->gridLayout->addWidget(states.at(State::GetNumber(j, i, sizeY)).GetStateUi(), i , j);
-       }
-   }
 
    QButtonGroup *bGr = new QButtonGroup;
    bGr->addButton(ui->radioButtonDP);
@@ -26,10 +15,9 @@ MainWindow::MainWindow(QWidget *parent)
    bGr->addButton(ui->radioButtonTD);
    ui->groupBoxMC->setEnabled(false);
 
-
-
-   pvoes.push_back(Pvo(7,7,0, 150, 300));
-   pvoes.push_back(Pvo(10,10,0, 150, 300));
+   logicWork = LogicWork();
+   for (State stateItem: logicWork.states)
+    ui->gridLayout->addWidget(stateItem.GetStateUi(), stateItem.Y ,stateItem.X);
 }
 
 MainWindow::~MainWindow()
@@ -46,26 +34,32 @@ void MainWindow::paintEvent(QPaintEvent *)
     QImage ImagePvoLevelTwo(this->size(), QImage::Format_ARGB32_Premultiplied);
     QImage ImagePvoLevelThree(this->size(), QImage::Format_ARGB32_Premultiplied);
 
-    for (Pvo pvoItem: pvoes)
+    for (Pvo pvoItem: logicWork.pvoes)
     {
       painter.begin(&ImagePvoLevelOne);
       painter.setBrush(QBrush(Qt::blue, Qt::SolidPattern));
-      painter.drawEllipse(pvoItem.GetDistatncePaint(geomGrid.x(),xGrid, false),pvoItem.GetDistatncePaint(geomGrid.y(),yGrid, false), pvoItem.R2, pvoItem.R2);
+      painter.drawEllipse(pvoItem.GetPaintR2X(geomGrid.x()),pvoItem.GetPaintR2Y(geomGrid.y()), pvoItem.R2, pvoItem.R2);
       painter.end();
 
       painter.begin(&ImagePvoLevelTwo);
       painter.setBrush(QBrush(Qt::red, Qt::SolidPattern));
-      painter.drawEllipse(pvoItem.GetDistatncePaint(geomGrid.x(),xGrid, true),pvoItem.GetDistatncePaint(geomGrid.y(),yGrid, true), pvoItem.R1, pvoItem.R1);
+      painter.drawEllipse(pvoItem.GetPaintR1X(geomGrid.x()),pvoItem.GetPaintR1Y(geomGrid.y()), pvoItem.R1, pvoItem.R1);
       painter.end();
 
       painter.begin(&ImagePvoLevelThree);
-      painter.drawPixmap(geomGrid.x()+xGrid*pvoItem.X,geomGrid.y()+yGrid*pvoItem.Y,xGrid,yGrid,pixPvo);
+      painter.drawPixmap(geomGrid.x()+Enviropment::XYst*pvoItem.X,geomGrid.y()+Enviropment::XYst*pvoItem.Y,Enviropment::XYst,Enviropment::XYst,pixPvo);
       painter.end();
     }
     painter.begin(this);
     painter.drawImage(0,0,ImagePvoLevelOne);
     painter.drawImage(0,0,ImagePvoLevelTwo);
     painter.drawImage(0,0,ImagePvoLevelThree);
+    QPixmap pixCel(":/resource/Cel.jpg");
+    State* cel = logicWork.findState(logicWork.finish);
+    painter.drawPixmap(geomGrid.x()+Enviropment::XYst*cel->X,geomGrid.y()+Enviropment::XYst*cel->Y,Enviropment::XYst,Enviropment::XYst,pixCel);
+    QPixmap pixAgent(":/resource/Cel.jpg");
+    State* agent = logicWork.findState((Point)logicWork.agent);
+    painter.drawPixmap(geomGrid.x()+Enviropment::XYst*agent->X,geomGrid.y()+Enviropment::XYst*agent->Y,Enviropment::XYst,Enviropment::XYst,pixAgent);
     painter.end();
 
 }
