@@ -18,8 +18,7 @@ public:
     State* findState(Point pnt);
     Agent agent;
 private:
-
-
+    void updateRewardPvo(void);
 };
 
 #endif // LOGICWORK_H

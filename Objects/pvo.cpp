@@ -16,19 +16,19 @@ Pvo::~Pvo()
 
 int Pvo::GetPaintR1X(int geomGridKoord)
 {
-    return geomGridKoord+Enviropment::XYst*X - R1/2 + Enviropment::XYst/2;
+    return geomGridKoord+Enviropment::XYst*X - R1 + Enviropment::XYst/2;
 }
 int Pvo::GetPaintR2X(int geomGridKoord)
 {
-    return geomGridKoord+Enviropment::XYst*X - R2/2 + Enviropment::XYst/2;
+    return geomGridKoord+Enviropment::XYst*X - R2 + Enviropment::XYst/2;
 }
 int Pvo::GetPaintR1Y(int geomGridKoord)
 {
-    return geomGridKoord+Enviropment::XYst*Y - R1/2 + Enviropment::XYst/2;
+    return geomGridKoord+Enviropment::XYst*Y - R1 + Enviropment::XYst/2;
 }
 int Pvo::GetPaintR2Y(int geomGridKoord)
 {
-    return geomGridKoord+Enviropment::XYst*Y - R2/2 + Enviropment::XYst/2;
+    return geomGridKoord+Enviropment::XYst*Y - R2 + Enviropment::XYst/2;
 }
 //void Pvo::paintEvent(QPaintEvent *)
 //{

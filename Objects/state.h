@@ -10,8 +10,12 @@ public:
     State(Point pnt, StateUi*);
     ~State();
     StateUi* GetStateUi();
-    double VpOpt, Reward;
+    void SetReward(double reward);
+    double GetReward();
+    void SetVpOpt(double vp);
+    double GetVpOpt();
 private:
+    double VpOpt, Reward;
     StateUi* stUi;
 };
 

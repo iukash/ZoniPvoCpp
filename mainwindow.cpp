@@ -38,12 +38,12 @@ void MainWindow::paintEvent(QPaintEvent *)
     {
       painter.begin(&ImagePvoLevelOne);
       painter.setBrush(QBrush(Qt::blue, Qt::SolidPattern));
-      painter.drawEllipse(pvoItem.GetPaintR2X(geomGrid.x()),pvoItem.GetPaintR2Y(geomGrid.y()), pvoItem.R2, pvoItem.R2);
+      painter.drawEllipse(pvoItem.GetPaintR2X(geomGrid.x()),pvoItem.GetPaintR2Y(geomGrid.y()), pvoItem.R2*2, pvoItem.R2*2);
       painter.end();
 
       painter.begin(&ImagePvoLevelTwo);
       painter.setBrush(QBrush(Qt::red, Qt::SolidPattern));
-      painter.drawEllipse(pvoItem.GetPaintR1X(geomGrid.x()),pvoItem.GetPaintR1Y(geomGrid.y()), pvoItem.R1, pvoItem.R1);
+      painter.drawEllipse(pvoItem.GetPaintR1X(geomGrid.x()),pvoItem.GetPaintR1Y(geomGrid.y()), pvoItem.R1*2, pvoItem.R1*2);
       painter.end();
 
       painter.begin(&ImagePvoLevelThree);
@@ -57,7 +57,7 @@ void MainWindow::paintEvent(QPaintEvent *)
     QPixmap pixCel(":/resource/Cel.jpg");
     State* cel = logicWork.findState(logicWork.finish);
     painter.drawPixmap(geomGrid.x()+Enviropment::XYst*cel->X,geomGrid.y()+Enviropment::XYst*cel->Y,Enviropment::XYst,Enviropment::XYst,pixCel);
-    QPixmap pixAgent(":/resource/Cel.jpg");
+    QPixmap pixAgent(":/resource/su57.png");
     State* agent = logicWork.findState((Point)logicWork.agent);
     painter.drawPixmap(geomGrid.x()+Enviropment::XYst*agent->X,geomGrid.y()+Enviropment::XYst*agent->Y,Enviropment::XYst,Enviropment::XYst,pixAgent);
     painter.end();
