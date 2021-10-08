@@ -18,9 +18,12 @@ public:
 
 protected:
     void paintEvent(QPaintEvent *event);
+    void keyPressEvent(QKeyEvent*);
 
 private:
     Ui::MainWindow *ui;
     LogicWork logicWork;
+    bool _initPaint = true;
+    QImage ImagePvoLevelOne, ImagePvoLevelTwo, ImagePvoLevelThree;
 };
 #endif // MAINWINDOW_H

@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
    ui->groupBoxMC->setEnabled(false);
 
    logicWork = LogicWork();
+
    for (State stateItem: logicWork.states)
     ui->gridLayout->addWidget(stateItem.GetStateUi(), stateItem.Y ,stateItem.X);
 }
@@ -27,28 +28,31 @@ MainWindow::~MainWindow()
 
 void MainWindow::paintEvent(QPaintEvent *)
 {
-    QPixmap pixPvo(":/resource/PVO.jpg");
-    auto geomGrid = ui->gridLayout->geometry();
     QPainter painter;
-    QImage ImagePvoLevelOne(this->size(), QImage::Format_ARGB32_Premultiplied);
-    QImage ImagePvoLevelTwo(this->size(), QImage::Format_ARGB32_Premultiplied);
-    QImage ImagePvoLevelThree(this->size(), QImage::Format_ARGB32_Premultiplied);
-
-    for (Pvo pvoItem: logicWork.pvoes)
+    auto geomGrid = ui->gridLayout->geometry();
+    QPixmap pixPvo(":/resource/PVO.jpg");
+    if(_initPaint)
     {
-      painter.begin(&ImagePvoLevelOne);
-      painter.setBrush(QBrush(Qt::blue, Qt::SolidPattern));
-      painter.drawEllipse(pvoItem.GetPaintR2X(geomGrid.x()),pvoItem.GetPaintR2Y(geomGrid.y()), pvoItem.R2*2, pvoItem.R2*2);
-      painter.end();
+        ImagePvoLevelOne = QImage(this->size(), QImage::Format_ARGB32_Premultiplied);
+        ImagePvoLevelTwo = QImage(this->size(), QImage::Format_ARGB32_Premultiplied);
+        ImagePvoLevelThree = QImage(this->size(), QImage::Format_ARGB32_Premultiplied);
+        for (Pvo pvoItem: logicWork.pvoes)
+        {
+          painter.begin(&ImagePvoLevelOne);
+          painter.setBrush(QBrush(Qt::blue, Qt::SolidPattern));
+          painter.drawEllipse(pvoItem.GetPaintR2X(geomGrid.x()),pvoItem.GetPaintR2Y(geomGrid.y()), pvoItem.R2*2, pvoItem.R2*2);
+          painter.end();
 
-      painter.begin(&ImagePvoLevelTwo);
-      painter.setBrush(QBrush(Qt::red, Qt::SolidPattern));
-      painter.drawEllipse(pvoItem.GetPaintR1X(geomGrid.x()),pvoItem.GetPaintR1Y(geomGrid.y()), pvoItem.R1*2, pvoItem.R1*2);
-      painter.end();
+          painter.begin(&ImagePvoLevelTwo);
+          painter.setBrush(QBrush(Qt::red, Qt::SolidPattern));
+          painter.drawEllipse(pvoItem.GetPaintR1X(geomGrid.x()),pvoItem.GetPaintR1Y(geomGrid.y()), pvoItem.R1*2, pvoItem.R1*2);
+          painter.end();
 
-      painter.begin(&ImagePvoLevelThree);
-      painter.drawPixmap(geomGrid.x()+Enviropment::XYst*pvoItem.X,geomGrid.y()+Enviropment::XYst*pvoItem.Y,Enviropment::XYst,Enviropment::XYst,pixPvo);
-      painter.end();
+          painter.begin(&ImagePvoLevelThree);
+          painter.drawPixmap(geomGrid.x()+Enviropment::XYst*pvoItem.X,geomGrid.y()+Enviropment::XYst*pvoItem.Y,Enviropment::XYst,Enviropment::XYst,pixPvo);
+          painter.end();
+        }
+        _initPaint = false;
     }
     painter.begin(this);
     painter.drawImage(0,0,ImagePvoLevelOne);
@@ -61,5 +65,43 @@ void MainWindow::paintEvent(QPaintEvent *)
     State* agent = logicWork.findState((Point)logicWork.agent);
     painter.drawPixmap(geomGrid.x()+Enviropment::XYst*agent->X,geomGrid.y()+Enviropment::XYst*agent->Y,Enviropment::XYst,Enviropment::XYst,pixAgent);
     painter.end();
+}
 
+void MainWindow::keyPressEvent(QKeyEvent *e)
+{
+    switch ( e->key() )
+    {
+    case Qt::Key_W:
+        ui->lineEdit->setText(QString::number(logicWork.agentMoveGetReward(Up, true)));
+        update();
+        break;
+    case Qt::Key_E:
+        ui->lineEdit->setText(QString::number(logicWork.agentMoveGetReward(UpRight, true)));
+        update();
+        break;
+    case Qt::Key_D:
+        ui->lineEdit->setText(QString::number(logicWork.agentMoveGetReward(Right, true)));
+        update();
+        break;
+    case Qt::Key_C:
+        ui->lineEdit->setText(QString::number(logicWork.agentMoveGetReward(DownRight, true)));
+        update();
+        break;
+    case Qt::Key_X:
+        ui->lineEdit->setText(QString::number(logicWork.agentMoveGetReward(Down, true)));
+        update();
+        break;
+    case Qt::Key_Z:
+        ui->lineEdit->setText(QString::number(logicWork.agentMoveGetReward(DownLeft, true)));
+        update();
+        break;
+    case Qt::Key_A:
+        ui->lineEdit->setText(QString::number(logicWork.agentMoveGetReward(Left, true)));
+        update();
+        break;
+    case Qt::Key_Q:
+        ui->lineEdit->setText(QString::number(logicWork.agentMoveGetReward(UpLeft, true)));
+        update();
+        break;
+    }
 }

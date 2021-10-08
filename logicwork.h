@@ -6,6 +6,20 @@
 #include "enviropment.h"
 #include "Objects/agent.h"
 #include <vector>
+#include <map>
+#include <functional>
+
+enum Action
+{
+    Up,
+    UpRight,
+    Right,
+    DownRight,
+    Down,
+    DownLeft,
+    Left,
+    UpLeft
+};
 
 class LogicWork
 {
@@ -17,6 +31,7 @@ public:
     Point finish;
     State* findState(Point pnt);
     Agent agent;
+    double agentMoveGetReward(Action, bool);
 private:
     void updateRewardPvo(void);
 };

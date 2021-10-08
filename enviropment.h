@@ -1,7 +1,6 @@
 #ifndef ENVIROPMENT_H
 #define ENVIROPMENT_H
 
-
 class Enviropment
 {
 public:

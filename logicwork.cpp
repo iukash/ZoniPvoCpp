@@ -40,3 +40,40 @@ void LogicWork::updateRewardPvo(void)
         }
     }
 }
+
+double LogicWork::agentMoveGetReward(Action act, bool move)
+{
+    Point movePoint;
+    switch(act)
+    {
+        case Up:
+        movePoint = Point(agent.X, agent.Y + 1, agent.Z);
+        break;
+        case UpRight:
+        movePoint = Point(agent.X + 1, agent.Y + 1, agent.Z);
+        break;
+        case Right:
+        movePoint = Point(agent.X + 1, agent.Y, agent.Z);
+        break;
+        case DownRight:
+        movePoint = Point(agent.X + 1, agent.Y - 1, agent.Z);
+        break;
+        case Down:
+        movePoint = Point(agent.X, agent.Y - 1, agent.Z);
+        break;
+        case DownLeft:
+        movePoint = Point(agent.X - 1, agent.Y - 1, agent.Z);
+        break;
+        case Left:
+        movePoint = Point(agent.X - 1, agent.Y, agent.Z);
+        break;
+        case UpLeft:
+        movePoint = Point(agent.X - 1, agent.Y + 1, agent.Z);
+        break;
+    }
+
+    if(move)
+        agent.SetPosition(movePoint);
+
+    return findState(movePoint)->GetReward();
+}
