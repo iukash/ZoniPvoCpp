@@ -1,5 +1,5 @@
+#include <QtDebug>
 #include "logicwork.h"
-#include <math.h>
 
 LogicWork::LogicWork()
 {
@@ -43,6 +43,15 @@ void LogicWork::updateRewardPvo(void)
 
 double LogicWork::agentMoveGetReward(Action act, bool move)
 {
+    Point movePoint = moveToPoint(act);
+    if(move)
+        agent.SetPosition(movePoint);
+
+    return findState(movePoint)->GetReward();
+}
+
+Point LogicWork::moveToPoint(Action act)
+{
     Point movePoint;
     switch(act)
     {
@@ -71,9 +80,11 @@ double LogicWork::agentMoveGetReward(Action act, bool move)
         movePoint = Point(agent.X - 1, agent.Y + 1, agent.Z);
         break;
     }
+    return movePoint;
+}
 
-    if(move)
-        agent.SetPosition(movePoint);
-
-    return findState(movePoint)->GetReward();
+void LogicWork::startAlgoritm(Alg alg)
+{
+    if(alg == Alg::IterPolDP)
+        AlgoritmDpIterPolicy::StartAlgoritmDpIterPolicy(&states);
 }

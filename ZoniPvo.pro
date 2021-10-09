@@ -9,9 +9,11 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Algoritms/algoritmdpiterpolicy.cpp \
     Controls/stateui.cpp \
     Objects/agent.cpp \
     Objects/point.cpp \
+    Objects/policyunit.cpp \
     Objects/pvo.cpp \
     Objects/state.cpp \
     enviropment.cpp \
@@ -20,9 +22,11 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
+    Algoritms/algoritmdpiterpolicy.h \
     Controls/stateui.h \
     Objects/agent.h \
     Objects/point.h \
+    Objects/policyunit.h \
     Objects/pvo.h \
     Objects/state.h \
     enviropment.h \

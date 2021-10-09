@@ -5,24 +5,14 @@
 #include "Objects/pvo.h"
 #include "enviropment.h"
 #include "Objects/agent.h"
+#include "Algoritms/algoritmdpiterpolicy.h"
 #include <vector>
-#include <map>
 #include <functional>
+#include <math.h>
 
-enum Action
+class LogicWork: public QObject
 {
-    Up,
-    UpRight,
-    Right,
-    DownRight,
-    Down,
-    DownLeft,
-    Left,
-    UpLeft
-};
-
-class LogicWork
-{
+    Q_OBJECT
 public:
     LogicWork();
     ~LogicWork();
@@ -32,8 +22,12 @@ public:
     State* findState(Point pnt);
     Agent agent;
     double agentMoveGetReward(Action, bool);
+public slots:
+void startAlgoritm(Alg alg);
+State*
 private:
     void updateRewardPvo(void);
+    Point moveToPoint(Action act);
 };
 
 #endif // LOGICWORK_H

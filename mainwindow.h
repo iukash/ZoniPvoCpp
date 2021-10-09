@@ -25,5 +25,10 @@ private:
     LogicWork logicWork;
     bool _initPaint = true;
     QImage ImagePvoLevelOne, ImagePvoLevelTwo, ImagePvoLevelThree;
+
+signals:
+    void signalSelectAlgoritm(Alg);
+private slots:
+    void slotClickedSelectAlgoritm();
 };
 #endif // MAINWINDOW_H

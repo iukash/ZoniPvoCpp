@@ -15,10 +15,11 @@ MainWindow::MainWindow(QWidget *parent)
    bGr->addButton(ui->radioButtonTD);
    ui->groupBoxMC->setEnabled(false);
 
-   logicWork = LogicWork();
-
    for (State stateItem: logicWork.states)
     ui->gridLayout->addWidget(stateItem.GetStateUi(), stateItem.Y ,stateItem.X);
+
+   connect(ui->pushButtonStart, SIGNAL(clicked()), this, SLOT(slotClickedSelectAlgoritm()));
+   connect(this, SIGNAL(signalSelectAlgoritm(Alg)), &logicWork, SLOT(startAlgoritm(Alg)));
 }
 
 MainWindow::~MainWindow()
@@ -104,4 +105,14 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
         update();
         break;
     }
+}
+
+void MainWindow::slotClickedSelectAlgoritm()
+{
+    if(ui->radioButtonDpIterPol->isChecked())
+        emit signalSelectAlgoritm(Alg::IterPolDP);
+    if(ui->radioButtonDpIterState->isChecked())
+        emit signalSelectAlgoritm(Alg::IterStDP);
+    if(ui->radioButtonTD->isChecked())
+        emit signalSelectAlgoritm(Alg::TD);
 }
