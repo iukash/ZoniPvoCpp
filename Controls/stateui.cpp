@@ -10,6 +10,7 @@ StateUi::StateUi(QWidget *parent) :
     XYst = Enviropment::XYst;
     this->setMinimumSize(XYst,XYst);
     lbl = new QLabel("0", this);
+    lbl->setFixedWidth(XYst);
     lbl->setAlignment(Qt::AlignHCenter);
     lbl->setStyleSheet("QLabel {color : green;}"); // background-color : red;
     //QVBoxLayout *vBoxLayoutMain = new QVBoxLayout();

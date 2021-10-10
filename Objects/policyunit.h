@@ -10,7 +10,7 @@ public:
     PolicyUnit();
     void SetProbality(Action, double);
     double GetProbality(Action);
-
+    void SetAllProbality0();
     friend bool operator== (const PolicyUnit &pu1, const PolicyUnit &pu2);
     friend bool operator!= (const PolicyUnit &pu1, const PolicyUnit &pu2);
 private:

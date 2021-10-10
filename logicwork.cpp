@@ -3,16 +3,18 @@
 
 LogicWork::LogicWork()
 {
-    for (int i = Enviropment::Ygrid - 1; i > -1; i--)
+    for (int i = 0; i < Enviropment::Ygrid; i++)
         for (int j = 0; j < Enviropment::Xgrid; j++)
             states.push_back(State(Point(j,i,0),new StateUi()));
 
-    pvoes.push_back(Pvo(Point(17,17,0), 150, 300));
-    pvoes.push_back(Pvo(Point(13,13,0), 150, 300));
-    finish = Point(Enviropment::Xgrid - int(Enviropment::Xgrid/10), Enviropment::Ygrid - int(Enviropment::Ygrid/5), 0);
-    findState(finish)->SetReward(1000);
-    agent = Agent(Point(2,2,0));
+    pvoes.push_back(Pvo(Point(17,15,0), 150, 300));
+    pvoes.push_back(Pvo(Point(13,11,0), 150, 300));
+    finish = Point(37, 4, 0);
+    findState(finish)->SetReward(500);
+    agent = Agent(Point(2,22,0));
     updateRewardPvo();
+    connect(&algDpPol, SIGNAL(signalGetInfoState(State*, Action)), this, SLOT(slotGetInfoState(State*, Action)));
+    connect(this, SIGNAL(signalReturnInfoState(std::pair <double, double>)), &algDpPol, SLOT(slotReturnInfoState(std::pair <double, double>)));
 }
 
 LogicWork::~LogicWork()
@@ -34,57 +36,73 @@ void LogicWork::updateRewardPvo(void)
         {
             double _distance = sqrt(pow(Enviropment::XYst*(pvoItem.X - stateItem.X), 2) + pow(Enviropment::XYst*(pvoItem.Y - stateItem.Y), 2));
             if(_distance < pvoItem.R2)
-                stateItem.SetReward(stateItem.GetReward()-15);
+                stateItem.SetReward(stateItem.GetReward()-10000);
             if(_distance < pvoItem.R1)
-                stateItem.SetReward(stateItem.GetReward()-30);
+                stateItem.SetReward(stateItem.GetReward()-30000);
         }
     }
 }
 
 double LogicWork::agentMoveGetReward(Action act, bool move)
 {
-    Point movePoint = moveToPoint(act);
+    Point movePoint = moveToPoint(&agent, act);
     if(move)
         agent.SetPosition(movePoint);
 
     return findState(movePoint)->GetReward();
 }
 
-Point LogicWork::moveToPoint(Action act)
+template <class TempAgentState>
+Point LogicWork::moveToPoint(const TempAgentState &st, Action act)
 {
-    Point movePoint;
+    Point movePoint = Point(st->X, st->Y, st->Z);
     switch(act)
     {
         case Up:
-        movePoint = Point(agent.X, agent.Y + 1, agent.Z);
+        if(st->Y!=Enviropment::Ygrid-1)
+            movePoint = Point(st->X, st->Y + 1, st->Z);
         break;
         case UpRight:
-        movePoint = Point(agent.X + 1, agent.Y + 1, agent.Z);
+        if(st->X!=(Enviropment::Xgrid-1) && st->Y!=(Enviropment::Ygrid-1))
+            movePoint = Point(st->X + 1, st->Y + 1, st->Z);
         break;
         case Right:
-        movePoint = Point(agent.X + 1, agent.Y, agent.Z);
+        if(st->X!=(Enviropment::Xgrid-1))
+            movePoint = Point(st->X + 1, st->Y, st->Z);
         break;
         case DownRight:
-        movePoint = Point(agent.X + 1, agent.Y - 1, agent.Z);
+        if(st->X!=(Enviropment::Xgrid-1) && st->Y!=0)
+            movePoint = Point(st->X + 1, st->Y - 1, st->Z);
         break;
         case Down:
-        movePoint = Point(agent.X, agent.Y - 1, agent.Z);
+        if(st->Y!=0)
+            movePoint = Point(st->X, st->Y - 1, st->Z);
         break;
         case DownLeft:
-        movePoint = Point(agent.X - 1, agent.Y - 1, agent.Z);
+        if(st->X!=0 && st->Y!=0)
+            movePoint = Point(st->X - 1, st->Y - 1, st->Z);
         break;
         case Left:
-        movePoint = Point(agent.X - 1, agent.Y, agent.Z);
+        if(st->X!=0)
+            movePoint = Point(st->X - 1, st->Y, st->Z);
         break;
         case UpLeft:
-        movePoint = Point(agent.X - 1, agent.Y + 1, agent.Z);
+        if(st->X!=0 && st->Y!=(Enviropment::Ygrid-1))
+            movePoint = Point(st->X - 1, st->Y + 1, st->Z);
         break;
     }
     return movePoint;
 }
 
-void LogicWork::startAlgoritm(Alg alg)
+void LogicWork::slotStartAlgoritm(Alg alg)
 {
     if(alg == Alg::IterPolDP)
-        AlgoritmDpIterPolicy::StartAlgoritmDpIterPolicy(&states);
+        algDpPol.StartAlgoritmDpIterPolicy(&states);
+}
+
+void LogicWork::slotGetInfoState(State* st, Action act)
+{
+    State* _st = findState(moveToPoint(st, act));
+    std::pair <double, double> par = {_st->GetReward(), _st->GetVpOpt()};
+    emit signalReturnInfoState(par);
 }

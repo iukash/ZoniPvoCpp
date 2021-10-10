@@ -7,6 +7,7 @@
 #include "Objects/agent.h"
 #include "Algoritms/algoritmdpiterpolicy.h"
 #include <vector>
+#include <utility>
 #include <functional>
 #include <math.h>
 
@@ -22,12 +23,16 @@ public:
     State* findState(Point pnt);
     Agent agent;
     double agentMoveGetReward(Action, bool);
-public slots:
-void startAlgoritm(Alg alg);
-State*
+    public slots:
+        void slotStartAlgoritm(Alg alg);
+        void slotGetInfoState(State*, Action);
 private:
     void updateRewardPvo(void);
-    Point moveToPoint(Action act);
+    template <class TempAgentState>
+    Point moveToPoint(const TempAgentState &st, Action act);
+    AlgoritmDpIterPolicy algDpPol;
+    signals:
+        void signalReturnInfoState(std::pair <double, double>);
 };
 
 #endif // LOGICWORK_H

@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->gridLayout->addWidget(stateItem.GetStateUi(), stateItem.Y ,stateItem.X);
 
    connect(ui->pushButtonStart, SIGNAL(clicked()), this, SLOT(slotClickedSelectAlgoritm()));
-   connect(this, SIGNAL(signalSelectAlgoritm(Alg)), &logicWork, SLOT(startAlgoritm(Alg)));
+   connect(this, SIGNAL(signalSelectAlgoritm(Alg)), &logicWork, SLOT(slotStartAlgoritm(Alg)));
 }
 
 MainWindow::~MainWindow()

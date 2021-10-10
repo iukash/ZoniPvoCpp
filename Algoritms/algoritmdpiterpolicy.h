@@ -3,21 +3,28 @@
 
 #include "Objects/policyunit.h"
 #include "Objects/state.h"
+#include <math.h>
 #include <vector>
 #include <QtDebug>
 
-class AlgoritmDpIterPolicy
+class AlgoritmDpIterPolicy: public QObject
 {
+    Q_OBJECT
 public:
     AlgoritmDpIterPolicy();
-    static void StartAlgoritmDpIterPolicy(std::vector <State>* );
-
+    void StartAlgoritmDpIterPolicy(std::vector <State>*);
+    public slots:
+        void slotReturnInfoState(std::pair <double, double>);
 private:
-    static std::vector <PolicyUnit> currentPolicy;
-    static std::vector <PolicyUnit> optimalPolicy;
-    static double discount;
-    static void UpdateVpStates(std::vector <State>*);
-    static double CountVpState(State* st, PolicyUnit* pSt);
+    std::vector <PolicyUnit> currentPolicy;
+    std::vector <PolicyUnit> optimalPolicy;
+    double discount;
+    void UpdateVpStates(std::vector <State>*);
+    double CountVpState(State* st, PolicyUnit* pSt);
+    void UpdateCurrentPolicy(std::vector <State>* states);
+    std::pair <double, double> pairState;
+    signals:
+        void signalGetInfoState(State*, Action);
 };
 
 #endif // ALGORITMDPITERPOLICY_H

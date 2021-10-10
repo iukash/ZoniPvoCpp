@@ -23,7 +23,7 @@ State::~State()
 void State::SetReward(double reward)
 {
     Reward = reward;
-    stUi->SetTextLabel(QString::number(reward));
+    //stUi->SetTextLabel(QString::number(reward));
 }
 double State::GetReward()
 {
@@ -32,6 +32,7 @@ double State::GetReward()
 void State::SetVpOpt(double vp)
 {
     VpOpt = vp;
+    stUi->SetTextLabel(QString::number(vp));
 }
 double State::GetVpOpt()
 {
