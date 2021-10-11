@@ -7,9 +7,11 @@
 #include "Objects/agent.h"
 #include "Algoritms/algoritmdpiterpolicy.h"
 #include <vector>
+#include <map>
 #include <utility>
 #include <functional>
 #include <math.h>
+#include "Objects/infostate.h"
 
 class LogicWork: public QObject
 {
@@ -28,11 +30,12 @@ public:
         void slotGetInfoState(State*, Action);
 private:
     void updateRewardPvo(void);
+    std::map<Action, double> rewardforMove;
     template <class TempAgentState>
     Point moveToPoint(const TempAgentState &st, Action act);
     AlgoritmDpIterPolicy algDpPol;
     signals:
-        void signalReturnInfoState(std::pair <double, double>);
+        void signalReturnInfoState(InfoState);
 };
 
 #endif // LOGICWORK_H

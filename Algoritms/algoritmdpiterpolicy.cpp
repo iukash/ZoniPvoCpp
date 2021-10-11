@@ -12,7 +12,7 @@ void AlgoritmDpIterPolicy::StartAlgoritmDpIterPolicy(std::vector <State>* states
         currentPolicy.push_back(PolicyUnit());
 
     bool NotEquality = true;
-    while (NotEquality)
+    while (NotEquality)//for(int i = 0; i < 2; i++)//
     {
         optimalPolicy.clear();
 
@@ -35,7 +35,7 @@ void AlgoritmDpIterPolicy::UpdateVpStates(std::vector <State>* states)
     {
         State* st = &(*itemState);
         PolicyUnit* pu = &(*itemPolicySt);
-        st->SetVpOpt(round(CountVpState(st, pu)));
+        st->SetVpOpt(round(CountVpState(st, pu)*10)/10);
     }
 }
 
@@ -45,16 +45,17 @@ double AlgoritmDpIterPolicy::CountVpState(State* st, PolicyUnit* pSt)
     for(int i = 0; i < 8; i++)  //8 - количество элементов Action
     {
         emit signalGetInfoState(st, (Action)i);
-        std::pair <double, double> pairUp {pairState.first, pairState.second};
-        rezult += pSt->GetProbality((Action)i)*(pairState.first + discount*pairState.second);
+        rezult += pSt->GetProbality((Action)i)*(infoState.Reward + discount*infoState.Vp);
     }
+    rezult += st->GetReward();
     return rezult;
 }
 
-void AlgoritmDpIterPolicy::slotReturnInfoState(std::pair <double, double> par)
+void AlgoritmDpIterPolicy::slotReturnInfoState(InfoState iSt)
 {
-    pairState.first = par.first;
-    pairState.second = par.second;
+    infoState.Reward = iSt.Reward;
+    infoState.Vp = iSt.Vp;
+    infoState.MoveReward = iSt.MoveReward;
 }
 
 void AlgoritmDpIterPolicy::UpdateCurrentPolicy(std::vector <State>* states)
@@ -67,8 +68,7 @@ void AlgoritmDpIterPolicy::UpdateCurrentPolicy(std::vector <State>* states)
         for(int i = 0; i < 8; i++)  //8 - количество элементов Action
         {
             emit signalGetInfoState(_st, (Action)i);
-            std::pair <double, double> pairUp {pairState.first, pairState.second};
-            array.push_back(pairState.first + discount*pairState.second);
+            array.push_back(_st->GetReward() + infoState.MoveReward + infoState.Reward + discount*infoState.Vp);
         }
 
         double maxValue = *max_element(array.begin(), array.end());

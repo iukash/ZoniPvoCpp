@@ -3,6 +3,7 @@
 
 #include "Objects/policyunit.h"
 #include "Objects/state.h"
+#include "Objects/infostate.h"
 #include <math.h>
 #include <vector>
 #include <QtDebug>
@@ -14,7 +15,7 @@ public:
     AlgoritmDpIterPolicy();
     void StartAlgoritmDpIterPolicy(std::vector <State>*);
     public slots:
-        void slotReturnInfoState(std::pair <double, double>);
+        void slotReturnInfoState(InfoState);
 private:
     std::vector <PolicyUnit> currentPolicy;
     std::vector <PolicyUnit> optimalPolicy;
@@ -22,7 +23,7 @@ private:
     void UpdateVpStates(std::vector <State>*);
     double CountVpState(State* st, PolicyUnit* pSt);
     void UpdateCurrentPolicy(std::vector <State>* states);
-    std::pair <double, double> pairState;
+    InfoState infoState;
     signals:
         void signalGetInfoState(State*, Action);
 };

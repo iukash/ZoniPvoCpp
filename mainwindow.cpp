@@ -15,8 +15,20 @@ MainWindow::MainWindow(QWidget *parent)
    bGr->addButton(ui->radioButtonTD);
    ui->groupBoxMC->setEnabled(false);
 
-   for (State stateItem: logicWork.states)
-    ui->gridLayout->addWidget(stateItem.GetStateUi(), stateItem.Y ,stateItem.X);
+   for (int j = 0; j < Enviropment::Ygrid; j++) {
+       for (int i = 0; i < Enviropment::Xgrid; i++) {
+           State* st = &(logicWork.states.at(Enviropment::Ygrid*Enviropment::Xgrid - Enviropment::Xgrid - Enviropment::Xgrid*j + i));
+           ui->gridLayout->addWidget(st->GetStateUi(), j, i);
+       }
+   }
+//   for (int j = 1; j < Enviropment::Ygrid + 1; j++) {
+//       for (int i = 0; i < Enviropment::Xgrid; i++) {
+//           State* st = &(logicWork.states.at(Enviropment::Xgrid*j - Enviropment::Xgrid + i));
+//           ui->gridLayout->addWidget(st->GetStateUi(), st->Y, st->X);
+//       }
+//   }
+//   for (State stateItem: logicWork.states)
+//        ui->gridLayout->addWidget(stateItem.GetStateUi(), stateItem.Y, stateItem.X);
 
    connect(ui->pushButtonStart, SIGNAL(clicked()), this, SLOT(slotClickedSelectAlgoritm()));
    connect(this, SIGNAL(signalSelectAlgoritm(Alg)), &logicWork, SLOT(slotStartAlgoritm(Alg)));
@@ -41,16 +53,16 @@ void MainWindow::paintEvent(QPaintEvent *)
         {
           painter.begin(&ImagePvoLevelOne);
           painter.setBrush(QBrush(Qt::blue, Qt::SolidPattern));
-          painter.drawEllipse(pvoItem.GetPaintR2X(geomGrid.x()),pvoItem.GetPaintR2Y(geomGrid.y()), pvoItem.R2*2, pvoItem.R2*2);
+          painter.drawEllipse(pvoItem.GetPaintR2X(geomGrid.x()),Enviropment::XYst*Enviropment::Ygrid - (geomGrid.y()+Enviropment::XYst*pvoItem.Y + pvoItem.R2), pvoItem.R2*2, pvoItem.R2*2);
           painter.end();
 
           painter.begin(&ImagePvoLevelTwo);
           painter.setBrush(QBrush(Qt::red, Qt::SolidPattern));
-          painter.drawEllipse(pvoItem.GetPaintR1X(geomGrid.x()),pvoItem.GetPaintR1Y(geomGrid.y()), pvoItem.R1*2, pvoItem.R1*2);
+          painter.drawEllipse(pvoItem.GetPaintR1X(geomGrid.x()),Enviropment::XYst*Enviropment::Ygrid - (geomGrid.y()+Enviropment::XYst*pvoItem.Y + pvoItem.R1), pvoItem.R1*2, pvoItem.R1*2);
           painter.end();
 
           painter.begin(&ImagePvoLevelThree);
-          painter.drawPixmap(geomGrid.x()+Enviropment::XYst*pvoItem.X,geomGrid.y()+Enviropment::XYst*pvoItem.Y,Enviropment::XYst,Enviropment::XYst,pixPvo);
+          painter.drawPixmap(geomGrid.x()+Enviropment::XYst*pvoItem.X,Enviropment::XYst*Enviropment::Ygrid - (geomGrid.y()+Enviropment::XYst*pvoItem.Y+Enviropment::XYst/2),Enviropment::XYst,Enviropment::XYst,pixPvo);
           painter.end();
         }
         _initPaint = false;
@@ -61,10 +73,10 @@ void MainWindow::paintEvent(QPaintEvent *)
     painter.drawImage(0,0,ImagePvoLevelThree);
     QPixmap pixCel(":/resource/Cel.jpg");
     State* cel = logicWork.findState(logicWork.finish);
-    painter.drawPixmap(geomGrid.x()+Enviropment::XYst*cel->X,geomGrid.y()+Enviropment::XYst*cel->Y,Enviropment::XYst,Enviropment::XYst,pixCel);
+    painter.drawPixmap(geomGrid.x()+Enviropment::XYst*cel->X,Enviropment::XYst*Enviropment::Ygrid - (geomGrid.y()+Enviropment::XYst/2+Enviropment::XYst*cel->Y),Enviropment::XYst,Enviropment::XYst,pixCel);
     QPixmap pixAgent(":/resource/su57.png");
     State* agent = logicWork.findState((Point)logicWork.agent);
-    painter.drawPixmap(geomGrid.x()+Enviropment::XYst*agent->X,geomGrid.y()+Enviropment::XYst*agent->Y,Enviropment::XYst,Enviropment::XYst,pixAgent);
+    painter.drawPixmap(geomGrid.x()+Enviropment::XYst*agent->X,Enviropment::XYst*Enviropment::Ygrid - (geomGrid.y()+Enviropment::XYst/2+Enviropment::XYst*agent->Y),Enviropment::XYst,Enviropment::XYst,pixAgent);
     painter.end();
 }
 

@@ -12,6 +12,7 @@ SOURCES += \
     Algoritms/algoritmdpiterpolicy.cpp \
     Controls/stateui.cpp \
     Objects/agent.cpp \
+    Objects/infostate.cpp \
     Objects/point.cpp \
     Objects/policyunit.cpp \
     Objects/pvo.cpp \
@@ -25,6 +26,7 @@ HEADERS += \
     Algoritms/algoritmdpiterpolicy.h \
     Controls/stateui.h \
     Objects/agent.h \
+    Objects/infostate.h \
     Objects/point.h \
     Objects/policyunit.h \
     Objects/pvo.h \

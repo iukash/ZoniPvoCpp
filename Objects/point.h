@@ -10,6 +10,8 @@ public:
     int X;
     int Y;
     int Z;
+    friend bool operator== (const Point &pnt1, const Point &pnt2);
+    friend bool operator!= (const Point &pnt1, const Point &pnt2);
 };
 
 #endif // POINT_H
