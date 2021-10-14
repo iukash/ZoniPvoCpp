@@ -47,7 +47,6 @@ double AlgoritmDpIterPolicy::CountVpState(State* st, PolicyUnit* pSt)
         emit signalGetInfoState(st, (Action)i);
         rezult += pSt->GetProbality((Action)i)*(infoState.Reward + discount*infoState.Vp);
     }
-    rezult += st->GetReward();
     return rezult;
 }
 

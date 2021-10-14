@@ -7,7 +7,7 @@ StateUi::StateUi(QWidget *parent) :
     QWidget(parent), ui(new Ui::StateUi)
 {
     ui->setupUi(this);
-    XYst = Enviropment::XYst;
+    XYst = Enviropment::GetXYst();
     this->setMinimumSize(XYst,XYst);
     lbl = new QLabel("0", this);
     lbl->setFixedWidth(XYst);

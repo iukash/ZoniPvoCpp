@@ -17,7 +17,7 @@ class LogicWork: public QObject
 {
     Q_OBJECT
 public:
-    LogicWork();
+    LogicWork(int, int, int);
     ~LogicWork();
     std::vector <State> states;
     std::vector <Pvo> pvoes;
@@ -30,12 +30,14 @@ public:
         void slotGetInfoState(State*, Action);
 private:
     void updateRewardPvo(void);
+    void drawRoute(void);
     std::map<Action, double> rewardforMove;
     template <class TempAgentState>
     Point moveToPoint(const TempAgentState &st, Action act);
     AlgoritmDpIterPolicy algDpPol;
     signals:
         void signalReturnInfoState(InfoState);
+        void signalDrawRoute(std::vector<State* >);
 };
 
 #endif // LOGICWORK_H

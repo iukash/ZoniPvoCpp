@@ -22,13 +22,16 @@ protected:
 
 private:
     Ui::MainWindow *ui;
-    LogicWork logicWork;
+    LogicWork* logicWork;
     bool _initPaint = true;
     QImage ImagePvoLevelOne, ImagePvoLevelTwo, ImagePvoLevelThree;
+    std::vector<State* > route;
+    bool routeDraw = false;
 
 signals:
     void signalSelectAlgoritm(Alg);
 private slots:
     void slotClickedSelectAlgoritm();
+    void slotDrawRoute(std::vector<State* >);
 };
 #endif // MAINWINDOW_H
